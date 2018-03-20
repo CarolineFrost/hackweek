@@ -73,6 +73,7 @@ if __name__ == '__main__':
     model = init.create_network(IMAGE_HEIGHT, IMAGE_WIDTH, 3)
     canvas = create_canvas(content)
     session.run(tf.initialize_all_variables())
+
     
     #content loss from content image
     session.run(model['init'].assign(content))
@@ -91,11 +92,12 @@ if __name__ == '__main__':
     optimizer = tf.train.AdamOptimizer(2.0)
     train_step = optimizer.minimize(total_loss)
 
+    session.run(tf.initialize_all_variables())
     session.run(model['init'].assign(canvas))
 
     for it in range(ITERATIONS):
         session.run(train_step)
-        if it%100 == 0:
+        if it%10 == 0:
             # Print every 100 iteration.
             mixed_image = session.run(model['init'])
             print('Iteration %d' % (it))
